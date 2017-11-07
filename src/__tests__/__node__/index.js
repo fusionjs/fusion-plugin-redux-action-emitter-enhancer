@@ -1,20 +1,14 @@
 import {createStore} from 'redux';
 import test from 'tape-cup';
-import actionEmitterFunc from '../index.js';
+import EventEmitter from 'events';
+import actionEmitterFunc from '../../index.js';
 
 /* Mocks & Mock Factories */
 const getMockEventEmitterFactory = function() {
-  const onHandlers = [];
+  const emitter = new EventEmitter();
   return {
-    of: function() {
-      return {
-        on: function(type, handler) {
-          onHandlers.push({type, handler});
-        },
-        emit: function(type, event) {
-          onHandlers.filter(o => o.type == type).forEach(o => o.handler(event));
-        },
-      };
+    of() {
+      return emitter;
     },
   };
 };
